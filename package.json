@@ -4,6 +4,7 @@
   "description": "Rest API to calculate angle between hour and minute in watch",
   "main": "index.js",
   "scripts": {
+    "start" : "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jeferson Kersten",
