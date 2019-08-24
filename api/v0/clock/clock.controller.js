@@ -2,9 +2,11 @@ var Big = require('big.js')
 
 function getAngle(req, res, next) {
     var hour = req.params.hour;
-    var minute = req.params.minute;
+    var minute = req.params.minute || 0;
     var angle = calculateAngle(hour, minute);
     
+    console.log('Responded angle ' + angle + ' without caching');
+
     res.json({
         angle : angle
     });
