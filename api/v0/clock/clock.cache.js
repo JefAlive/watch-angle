@@ -8,19 +8,12 @@ function cache(duration) {
         
         var cachedBody = mcache.get(key);
         if (cachedBody) {
-            console.log(cachedBody);
-            console.log('Responded with cached response');
-
             res.send(cachedBody);
-            
             return;
         } else {
             res.sendResponseBackup = res.send;
             res.send = (body) => {
                 mcache.put(key, body, duration);
-                console.log(body);
-                console.log('Responded without cached response');
-
                 res.sendResponseBackup(body);
             }
 

@@ -1,11 +1,17 @@
 var Big = require('big.js')
+var { validationResult } = require('express-validator');
 
 function getAngle(req, res, next) {
+    var errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({errors: errors.array()});
+    }
+
     var hour = req.params.hour;
     var minute = req.params.minute || 0;
     var angle = calculateAngle(hour, minute);
 
-    res.json({
+    return res.json({
         angle : angle
     });
 }
