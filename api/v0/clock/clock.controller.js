@@ -1,11 +1,22 @@
 var Big = require('big.js')
+var cache = require('memory-cache');
 
 function getAngle(req, res, next) {
     var hour = req.params.hour;
     var minute = req.params.minute || 0;
-    var angle = calculateAngle(hour, minute);
-    
-    console.log('Responded angle ' + angle + ' without caching');
+
+    var angle;
+
+    var key = 'clock_' + hour + '_' + minute;
+    var cachedAngle = cache.get(key);
+    if (cachedAngle) {
+        angle = cachedAngle;
+        console.log('Responded angle ' + angle + ' [cashed in memory]');
+    } else {
+        angle = calculateAngle(hour, minute);
+        cache.put(key, angle, 10000);
+        console.log('Responded angle ' + angle + ' [calculated]');
+    }
 
     res.json({
         angle : angle
